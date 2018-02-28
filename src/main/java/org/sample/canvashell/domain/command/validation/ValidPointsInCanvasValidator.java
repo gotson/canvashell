@@ -1,19 +1,19 @@
 package org.sample.canvashell.domain.command.validation;
 
-import org.sample.canvashell.domain.command.CanvasAndPoints;
+import org.sample.canvashell.domain.command.DrawingCommand;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class ValidPointsInCanvasValidator
-        implements ConstraintValidator<ValidPointsInCanvas, CanvasAndPoints> {
+        implements ConstraintValidator<ValidPointsInCanvas, DrawingCommand> {
 
     @Override
     public void initialize(ValidPointsInCanvas constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(CanvasAndPoints command, ConstraintValidatorContext context) {
+    public boolean isValid(DrawingCommand command, ConstraintValidatorContext context) {
         if (command == null || command.getCanvas() == null) {
             return true;
         }

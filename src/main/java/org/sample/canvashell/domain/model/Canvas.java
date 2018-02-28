@@ -22,12 +22,38 @@ public class Canvas {
         initializeGrid();
     }
 
+    public Canvas(Canvas copy){
+        this.width = copy.width;
+        this.height = copy.height;
+        grid = new Pixel[height][width];
+        copyGrid(copy);
+    }
+
+    public Canvas duplicate(){
+        return new Canvas(this);
+    }
+
     private void initializeGrid() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 grid[i][j] = new Pixel(' ');
             }
         }
+    }
+
+    private void copyGrid(Canvas source) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                grid[i][j] = source.grid[i][j].duplicate();
+            }
+        }
+    }
+
+    public void redraw(Canvas source) throws CanvasRedrawException {
+        if(width != source.width || height !=source.height)
+            throw new CanvasRedrawException("Cannot redraw, source and destination are not the same size");
+
+        copyGrid(source);
     }
 
     public Pixel getPixel(Point point) {

@@ -7,4 +7,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class Pixel {
     private final char color;
+
+    public Pixel(Pixel copy){
+        this.color = copy.color;
+    }
+
+    public Pixel duplicate(){
+        return new Pixel(this);
+    }
 }

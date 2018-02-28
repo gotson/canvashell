@@ -1,6 +1,5 @@
 package org.sample.canvashell.domain.command;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.sample.canvashell.domain.command.validation.ValidPointsInCanvas;
@@ -8,22 +7,28 @@ import org.sample.canvashell.domain.model.Canvas;
 import org.sample.canvashell.domain.model.Pixel;
 import org.sample.canvashell.domain.model.Point;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
 @ValidPointsInCanvas(message = "The point is outside the canvas")
-public class BucketFillCommand extends Command implements CanvasAndPoints {
-    @NotNull(message = "Canvas has to be initialized first")
-    private final Canvas canvas;
+public class BucketFillCommand extends DrawingCommand {
     private final Point from;
     private final char replacementColor;
 
+    public BucketFillCommand(Canvas canvas, Point from, char replacementColor){
+        super(canvas);
+        this.from = from;
+        this.replacementColor = replacementColor;
+    }
+
     @Override
-    public void execute() {
-        char targetColor = canvas.getPixel(from).getColor();
+    public void executeSpecific() {
+        char originalColor = canvas.getPixel(from).getColor();
+
+        if(originalColor == replacementColor)
+            return;
+
         Queue<Point> queue = new LinkedList<>();
         queue.add(from);
 
@@ -40,7 +45,7 @@ public class BucketFillCommand extends Command implements CanvasAndPoints {
             neighbors.forEach(point -> {
                 if (point.getX() > 0 && point.getX() <= canvas.getWidth()
                         && point.getY() > 0 && point.getY() <= canvas.getHeight()
-                        && canvas.getPixel(point).getColor() == targetColor){
+                        && canvas.getPixel(point).getColor() == originalColor){
                     queue.add(point);
                 }
             });

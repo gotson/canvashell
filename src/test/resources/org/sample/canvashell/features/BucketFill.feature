@@ -17,6 +17,21 @@ Feature: bucket fill
 
     """
 
+  Scenario: Canvas refill with same color
+    Given Enter command 'C 20 4'
+    When Enter command 'B 2 2 b'
+    And Enter command 'B 2 2 b'
+    Then result is shown on screen
+    """
+    ----------------------
+    |bbbbbbbbbbbbbbbbbbbb|
+    |bbbbbbbbbbbbbbbbbbbb|
+    |bbbbbbbbbbbbbbbbbbbb|
+    |bbbbbbbbbbbbbbbbbbbb|
+    ----------------------
+
+    """
+
   Scenario: Canvas refill
     Given Enter command 'C 20 4'
     When Enter command 'B 2 2 a'
